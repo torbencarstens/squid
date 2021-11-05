@@ -8,6 +8,8 @@ on:
 jobs:
   build_push_docker:
     runs-on: ubuntu-latest
+    env:
+      VERSION: 5.2
     steps:
       - uses: actions/checkout@v1
       - name: Login to GitHub Container Registry
@@ -17,6 +19,6 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the tagged Docker image
-        run: docker build --build-arg VERSION=5.2 -t ghcr.io/torbencarstens/squid:${GITHUB_SHA} .
+        run: docker build --build-arg VERSION=$VERSION -t ghcr.io/torbencarstens/squid:$VERSION .
       - name: Push the tagged Docker image
-        run: docker push ghcr.io/torbencarstens/squid:${GITHUB_SHA}
+        run: docker push ghcr.io/torbencarstens/squid:$VERSION
